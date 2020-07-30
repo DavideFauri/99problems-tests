@@ -10,15 +10,17 @@
 
 1. Fork this repository
 
-2. Check that tests are working
+2. Check that placeholder tests are working
 
     $ stack build --test
 
-  <!-- This should print `Tests are working correctly!` -->
+  This should print `All 2 tests passed`
 
-3. Enable the first batch of tests
+3. Enable the first batch of tests in `test/Main.hs`
 
-4. Edit the exercises until all tests are passed
+4. Edit the exercises in `problems/` until all tests pass
+
+5. Repeat steps 3-4 until you've solved everything!
 
 
 
