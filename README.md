@@ -36,4 +36,4 @@ The master branch contains only the tests; the solutions are on a separate branc
 
 
 <!-- Links and other stuff -->
-[travis-url]: https://travis-ci.org/DavideFauri/99problemtests
+[travis-url]: https://travis-ci.org/DavideFauri/99problems-tests
