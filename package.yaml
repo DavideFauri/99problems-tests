@@ -1,0 +1,61 @@
+name:                99problems-tests
+version:             0.1.0.0
+github:              DavideFauri/99problems-tests
+license:             MIT
+author:              Davide Fauri
+maintainer:          davide.fauri@gmail.com
+copyright:           2020 Davide Fauri
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+synopsis:            A test suite for the famous 99 Haskell Problems
+category:            Teaching
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/DavideFauri/99problems#readme>
+
+dependencies:
+- base >= 4.11 && < 10
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wpartial-fields
+- -Wredundant-constraints
+
+library:
+  source-dirs: problems
+
+executables:
+  99ProblemTests-exe:
+    main:                Main.hs
+    source-dirs:         app
+    dependencies:
+    - 99problems-tests
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+tests:
+  99ProblemTests-test:
+    main:                Main.hs
+    source-dirs:         test
+    dependencies:
+    - 99problems-tests
+    - tasty
+    - tasty-hunit
+    - tasty-smallcheck
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N

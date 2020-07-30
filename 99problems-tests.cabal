@@ -1,0 +1,80 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 04b42e4a058e2c4dae9e102d5de97b3582ebbe02228e424d07381eaacaac3c6f
+
+name:           99problems-tests
+version:        0.1.0.0
+synopsis:       A test suite for the famous 99 Haskell Problems
+description:    Please see the README on Github at <https://github.com/DavideFauri/99problems#readme>
+category:       Teaching
+homepage:       https://github.com/DavideFauri/99problems-tests#readme
+bug-reports:    https://github.com/DavideFauri/99problems-tests/issues
+author:         Davide Fauri
+maintainer:     davide.fauri@gmail.com
+copyright:      2020 Davide Fauri
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/DavideFauri/99problems-tests
+
+library
+  exposed-modules:
+      P_01_28_Lists
+      P_31_41_Arithmetics
+      P_46_50_Logic
+      P_54_73_Trees
+      P_80_89_Graphs
+      P_90_99_Misc
+      Problems
+      Types
+  other-modules:
+      Paths_99problems_tests
+  hs-source-dirs:
+      problems
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.11 && <10
+  default-language: Haskell2010
+
+executable 99ProblemTests-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_99problems_tests
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      99problems-tests
+    , base >=4.11 && <10
+  default-language: Haskell2010
+
+test-suite 99ProblemTests-test
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      P_01_28_Lists_Tests
+      P_31_41_Arithmetics_Tests
+      P_46_50_Logic_Tests
+      P_54_73_Trees_Tests
+      P_80_89_Graphs_Tests
+      P_90_99_Misc_Tests
+      Paths_99problems_tests
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      99problems-tests
+    , base >=4.11 && <10
+    , tasty
+    , tasty-hunit
+    , tasty-smallcheck
+  default-language: Haskell2010
