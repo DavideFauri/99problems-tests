@@ -3,4 +3,4 @@
 module P_90_99_Misc where
 
 -- problem __
-func = undefined
+func3 = undefined

@@ -3,4 +3,4 @@
 module P_80_89_Graphs where
 
 -- problem __
-func = undefined
+func2 = undefined
