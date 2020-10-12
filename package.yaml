@@ -45,7 +45,8 @@ executables:
     - 99problems-tests
     - tasty
     - tasty-hunit
-    - tasty-smallcheck
+    - tasty-quickcheck
+    - tasty-expected-failure
 
     # ghc-options:
     # - -threaded
