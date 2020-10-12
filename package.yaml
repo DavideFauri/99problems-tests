@@ -1,5 +1,5 @@
 name:                99problems-tests
-version:             0.1.0.0
+version:             0.2.0.0
 github:              DavideFauri/99problems-tests
 license:             MIT
 author:              Davide Fauri
@@ -32,22 +32,14 @@ ghc-options:
 
 library:
   source-dirs: problems
+  dependencies:
+    - tasty
+    - tasty-hunit
+    - tasty-quickcheck
 
 executables:
-  99ProblemTests-exe:
-    main:                Main.hs
-    source-dirs:         app
-    dependencies:
-    - 99problems-tests
-
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-
-tests:
-  99ProblemTests-test:
-    main:                Main.hs
+  99ProblemTests:
+    main:                Test.hs
     source-dirs:         test
     dependencies:
     - 99problems-tests
@@ -55,7 +47,7 @@ tests:
     - tasty-hunit
     - tasty-smallcheck
 
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+    # ghc-options:
+    # - -threaded
+    # - -rtsopts
+    # - -with-rtsopts=-N
