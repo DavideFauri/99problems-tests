@@ -258,7 +258,7 @@ problem22Tests =
 
 problem23Tests :: [TestTree]
 problem23Tests =
-  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
+  [testCase "TODO" $ P.randomSelect `seq` error "TestNotImplemented"]
 
 --   describe "problem23_randomSelect" $ do
 --     prop "Extracts N elements" $ \n xs -> length (P.randomSelect xs n) == n
@@ -267,7 +267,7 @@ problem23Tests =
 
 problem24Tests :: [TestTree]
 problem24Tests =
-  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
+  [testCase "TODO" $ P.diffSelect `seq` error "TestNotImplemented"]
 
 --   describe "problem24_diffSelect" $ do
 --     prop "Draws N different numbers"
@@ -277,7 +277,7 @@ problem24Tests =
 
 problem25Tests :: [TestTree]
 problem25Tests =
-  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
+  [testCase "TODO" $ P.randomPermutation `seq` error "TestNotImplemented"]
 
 --   describe "problem25_randomPermutation" $ do
 --     context "When randomly permutating a string" $ do
