@@ -4,43 +4,46 @@ import qualified Problems as P
 import Test.Tasty
 import Test.Tasty.HUnit
 -- import Test.Tasty.QuickCheck
+
+import TestUtils (acceptTestsNotImplemented, softFailIfNotImplemented)
 import Types
 
 listsTests :: TestTree
 listsTests =
-  testGroup
-    "Lists"
-    [ testGroup "Problem 01" problem01Tests,
-      testGroup "Problem 02" problem02Tests,
-      testGroup "Problem 03" problem03Tests,
-      testGroup "Problem 04" problem04Tests,
-      testGroup "Problem 05" problem05Tests,
-      testGroup "Problem 06" problem06Tests,
-      testGroup "Problem 07" problem07Tests,
-      testGroup "Problem 08" problem08Tests,
-      testGroup "Problem 09" problem09Tests,
-      testGroup "Problem 10" problem10Tests,
-      testGroup "Problem 11" problem11Tests,
-      testGroup "Problem 12" problem12Tests,
-      testGroup "Problem 13" problem13Tests,
-      testGroup "Problem 14" problem14Tests,
-      testGroup "Problem 15" problem15Tests,
-      testGroup "Problem 16" problem16Tests,
-      testGroup "Problem 17" problem17Tests,
-      testGroup "Problem 18" problem18Tests,
-      testGroup "Problem 19" problem19Tests,
-      testGroup "Problem 20" problem20Tests,
-      testGroup "Problem 21" problem21Tests,
-      testGroup "Problem 22" problem22Tests,
-      testGroup "Problem 23" problem23Tests,
-      testGroup "Problem 24" problem24Tests,
-      testGroup "Problem 25" problem25Tests,
-      testGroup "Problem 26" problem26Tests,
-      testGroup "Problem 27a" problem27aTests
-      -- testGroup "Problem 27b" problem27bTests,
-      -- testGroup "Problem 28a" problem28aTests,
-      -- testGroup "Problem 28b" problem28bTests
-    ]
+  softFailIfNotImplemented $
+    testGroup
+      "Lists"
+      [ testGroup "Problem 01" problem01Tests,
+        testGroup "Problem 02" problem02Tests,
+        testGroup "Problem 03" problem03Tests,
+        testGroup "Problem 04" problem04Tests,
+        testGroup "Problem 05" problem05Tests,
+        testGroup "Problem 06" problem06Tests,
+        testGroup "Problem 07" problem07Tests,
+        testGroup "Problem 08" problem08Tests,
+        testGroup "Problem 09" problem09Tests,
+        testGroup "Problem 10" problem10Tests,
+        testGroup "Problem 11" problem11Tests,
+        testGroup "Problem 12" problem12Tests,
+        testGroup "Problem 13" problem13Tests,
+        testGroup "Problem 14" problem14Tests,
+        testGroup "Problem 15" problem15Tests,
+        testGroup "Problem 16" problem16Tests,
+        testGroup "Problem 17" problem17Tests,
+        testGroup "Problem 18" problem18Tests,
+        testGroup "Problem 19" problem19Tests,
+        testGroup "Problem 20" problem20Tests,
+        testGroup "Problem 21" problem21Tests,
+        testGroup "Problem 22" problem22Tests,
+        testGroup "Problem 23" problem23Tests,
+        testGroup "Problem 24" problem24Tests,
+        testGroup "Problem 25" problem25Tests,
+        testGroup "Problem 26" problem26Tests,
+        testGroup "Problem 27a" problem27aTests,
+        testGroup "Problem 27b" problem27bTests,
+        testGroup "Problem 28a" problem28aTests,
+        testGroup "Problem 28b" problem28bTests
+      ]
 
 problem01Tests :: [TestTree]
 problem01Tests =
@@ -199,38 +202,38 @@ problem14Tests =
 problem15Tests :: [TestTree]
 problem15Tests =
   [ testCase "Replicates the elements of a string 3 times" $
-      P.repli "abc" 3
+      P.repli 3 "abc"
         @?= "aaabbbccc"
   ]
 
 problem16Tests :: [TestTree]
 problem16Tests =
   [ testCase "Drops every 3rd element from a string" $
-      P.dropEvery "abcdefghik" 3
+      P.dropEvery 3 "abcdefghik"
         @?= "abdeghk"
   ]
 
 problem17Tests :: [TestTree]
 problem17Tests =
   [ testCase "Splits a list into two parts" $
-      P.split "abcdefghik" 3
+      P.split 3 "abcdefghik"
         @?= ("abc", "defghik")
   ]
 
 problem18Tests :: [TestTree]
 problem18Tests =
   [ testCase "Extracts a slice from a list" $
-      P.slice ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k'] 3 7
+      P.slice 3 7 ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k']
         @?= "cdefg"
   ]
 
 problem19Tests :: [TestTree]
 problem19Tests =
   [ testCase "Rotates a list 3 places to the left" $
-      P.rotate ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] 3
+      P.rotate 3 ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         @?= "defghabc",
     testCase "Rotates a list -2 places to the left" $
-      P.rotate ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] (-2)
+      P.rotate (-2) ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         @?= "ghabcdef"
   ]
 
@@ -244,7 +247,7 @@ problem20Tests =
 problem21Tests :: [TestTree]
 problem21Tests =
   [ testCase "DESCRIBE ME" $
-      P.insertAt 'X' "abcd" 2
+      P.insertAt 2 'X' "abcd"
         @?= "aXbcd"
   ]
 
@@ -257,7 +260,7 @@ problem22Tests =
 
 problem23Tests :: [TestTree]
 problem23Tests =
-  [testCase "TODO" $ undefined]
+  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
 
 --   describe "problem23_randomSelect" $ do
 --     prop "Extracts N elements" $ \n xs -> length (P.randomSelect xs n) == n
@@ -266,7 +269,7 @@ problem23Tests =
 
 problem24Tests :: [TestTree]
 problem24Tests =
-  [testCase "TODO" $ undefined]
+  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
 
 --   describe "problem24_diffSelect" $ do
 --     prop "Draws N different numbers"
@@ -276,7 +279,7 @@ problem24Tests =
 
 problem25Tests :: [TestTree]
 problem25Tests =
-  [testCase "TODO" $ undefined]
+  [acceptTestsNotImplemented $ testCase "TODO" $ error "NotImplemented"]
 
 --   describe "problem25_randomPermutation" $ do
 --     context "When randomly permutating a string" $ do
@@ -296,7 +299,7 @@ problem27aTests :: [TestTree]
 problem27aTests =
   [ testCase "Produces the right first disjoint subset" $
       head
-        ( P.group
+        ( P.group3
             [ "aldo",
               "beat",
               "carla",
@@ -308,13 +311,13 @@ problem27aTests =
               "ida"
             ]
         )
-        @?= [ ["aldo", "beat"],
+        @?= ( ["aldo", "beat"],
               ["carla", "david", "evi"],
               ["flip", "gary", "hugo", "ida"]
-            ],
+            ),
     testCase "Finds the correct number of disjoint subsets" $
       (length :: [a] -> Int) -- type annotation because GHC complains
-        ( P.group
+        ( P.group3
             [ "aldo",
               "beat",
               "carla",

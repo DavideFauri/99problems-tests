@@ -5,14 +5,14 @@ import P_54_73_Trees_Tests (treesTests)
 import P_80_89_Graphs_Tests (graphsTests)
 import P_90_99_Misc_Tests (miscTests)
 import Test.Tasty
-import TestUtils (muteUndefined)
+
 
 main :: IO ()
 main = defaultMain the99Tests
 
 the99Tests :: TestTree
 the99Tests =
-  muteUndefined $ testGroup
+  testGroup
     "99 Haskell Problems"
     [ listsTests,
       arithmeticsTests,

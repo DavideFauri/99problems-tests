@@ -1,46 +1,48 @@
-module TestUtils (dummyTests, muteUndefined) where
+{-# LANGUAGE RecordWildCards #-}
 
-import Control.Exception (SomeException, handleJust)
+module TestUtils (dummyTests, softFailIfNotImplemented, acceptTestsNotImplemented) where
+
 import Data.List (isPrefixOf)
 import Problems as P (placeholder)
-
 import Test.Tasty
-import Test.Tasty.ExpectedFailure (wrapTest)
+import Test.Tasty.ExpectedFailure (expectFailBecause, wrapTest)
 import Test.Tasty.HUnit
 import Test.Tasty.QuickCheck (testProperty)
 import Test.Tasty.Runners
 
+--------------------------------------
+
 -- HANDLING UNIMPLEMENTED FUNCTIONS
--- TODO: HANDLING TIMEOUTS
+-- TODO: HANDLING TIMEOUTS (?)
 
-muteUndefined :: TestTree -> TestTree
-muteUndefined = wrapTest (handleJust selectUndefined handleUndefined)
+softFailIfNotImplemented :: TestTree -> TestTree
+softFailIfNotImplemented = wrapTest (fmap changeResult)
   where
-    selectUndefined :: SomeException -> Maybe ()
-    selectUndefined e
-      | "Prelude.undefined" `isPrefixOf` (show e) = Just ()
-      | otherwise = Nothing
-    handleUndefined () = pure Result {
-                     resultOutcome = Failure TestFailed
-                   , resultDescription = ""
-                   , resultShortDescription = "FAIL (undefined)"
-                   , resultTime = 0}
+    changeResult r@Result {..}
+      | "Exception: NotImplemented" `isPrefixOf` resultDescription =
+        r {resultDescription = "Solution not implemented yet"}
+      | otherwise = r
 
+-- HANDLING UNIMPLEMENTED TESTS
+acceptTestsNotImplemented :: TestTree -> TestTree
+acceptTestsNotImplemented = expectFailBecause "test not implemented" . softFailIfNotImplemented
 
+--------------------------------------
 
 -- TESTING THE TEST INFRASTRUCTURE
 
 dummyTests :: TestTree
 dummyTests =
-  muteUndefined $ testGroup
-    "Placeholder Tests"
-    [ testProperty "Property tests are working" (dummyProp :: Int -> Bool), -- example Quickcheck property test
-      testCase "Unit tests are working" dummyCase, -- example unit test
-      testCase "Can import problem solutions" dummyImport, -- verify that can import solutions from Problems module
-      testCase "Undefined functions are regarded as failures" dummyFuncTest, -- handling the tricky case of an undefined function
-      testCase "This test should fail" dummyFail
-      -- testCase "This test should be hidden" dummyFail --TODO using tasty-fail-fast to only prompt one error at a time
-    ]
+  softFailIfNotImplemented $
+    testGroup
+      "Placeholder Tests"
+      [ testProperty "Property tests are working" (dummyProp :: Int -> Bool), -- example Quickcheck property test
+        testCase "Unit tests are working" dummyCase, -- example unit test
+        testCase "Can import problem solutions" dummyImport, -- verify that can import solutions from Problems module
+        testCase "Undefined functions are regarded as failures" dummyFuncTest, -- handling the tricky case of an undefined function
+        acceptTestsNotImplemented $ testCase "This test should fail, but that's OK" dummyFunc
+        -- testCase "This test should be hidden" dummyFail --TODO using tasty-fail-fast to only prompt one error at a time
+      ]
 
 dummyProp :: a -> Bool
 dummyProp = const True
@@ -52,7 +54,7 @@ dummyImport :: Assertion
 dummyImport = P.placeholder @?= "placeholder"
 
 dummyFunc :: a
-dummyFunc = undefined
+dummyFunc = error "NotImplemented"
 
 dummyFuncTest :: Assertion
 dummyFuncTest = dummyFunc @?= True
