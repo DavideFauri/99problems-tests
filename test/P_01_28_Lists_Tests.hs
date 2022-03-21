@@ -3,14 +3,12 @@ module P_01_28_Lists_Tests (listsTests) where
 import qualified Problems as P
 import Test.Tasty
 import Test.Tasty.HUnit
--- import Test.Tasty.QuickCheck
-
-import TestUtils (acceptTestsNotImplemented, softFailIfNotImplemented)
+import TestUtils
 import Types
 
 listsTests :: TestTree
 listsTests =
-  softFailIfNotImplemented $
+  handleUnimplemented $
     testGroup
       "Lists"
       [ testGroup "Problem 01" problem01Tests,
