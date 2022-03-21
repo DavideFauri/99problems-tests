@@ -1,8 +1,12 @@
+{-# LANGUAGE TypeApplications #-}
+
 module P_01_28_Lists_Tests (listsTests) where
 
 import qualified Problems as P
 import Test.Tasty
+import Test.Tasty.ExpectedFailure (expectFail)
 import Test.Tasty.HUnit
+import Test.Tasty.QuickCheck
 import TestUtils
 import Types
 
@@ -45,13 +49,13 @@ listsTests =
 
 problem01Tests :: [TestTree]
 problem01Tests =
-  [ testCase "Finds the last element of a list of numbers" $
-      P.myLast [1, 2, 3, 4]
-        @?= 4,
-    testCase "Finds the last element of a list of chars" $
-      P.myLast ['x', 'y', 'z']
-        @?= 'z'
+  [ testProperty "Finds the last element of a list of numbers" $ prop_findsLast @Int,
+    testProperty "Finds the last element of a list of chars" $ prop_findsLast @Char,
+    expectFail . testCase "Throws error when the list is empty" $ P.myLast []
   ]
+  where
+    prop_findsLast :: Eq a => a -> [a] -> Bool
+    prop_findsLast x list = P.myLast (list ++ [x]) == x
 
 problem02Tests :: [TestTree]
 problem02Tests =
