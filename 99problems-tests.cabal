@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5956badf43b0892bf18e370615e0c54bb63d2c50ffcbc752677aa8a9da018234
+-- hash: 58ab00cc3143fee744b5c63bed5ead320144f914646e40cd683b91ad90c302f1
 
 name:           99problems-tests
 version:        0.2.0.0
