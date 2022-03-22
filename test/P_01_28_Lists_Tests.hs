@@ -51,7 +51,7 @@ problem01Tests :: [TestTree]
 problem01Tests =
   [ testProperty "Finds the last element of a list of numbers" $ prop_findsLast @Int,
     testProperty "Finds the last element of a list of chars" $ prop_findsLast @Char,
-    expectFail . testCase "Throws error when the list is empty" $ P.myLast []
+    expectFail . testCase "Errors when the list is empty" $ P.myLast []
   ]
   where
     prop_findsLast :: Eq a => a -> [a] -> Bool
@@ -69,13 +69,18 @@ problem02Tests =
 
 problem03Tests :: [TestTree]
 problem03Tests =
-  [ testCase "Finds the 2nd element of a list of numbers" $
-      P.elementAt [1, 2, 3] 2
-        @?= 2,
-    testCase "Finds the 5th element of a string" $
-      P.elementAt "haskell" 5
-        @?= 'e'
+  [ testProperty "Finds the N-th element in a list of numbers" $ prop_findsNth @Int,
+    testProperty "Finds the N-th element in a list of chars" $ prop_findsNth @Char,
+    expectFail . testProperty "Errors when the index is <= 0" $ prop_failsOnNegativeIx,
+    expectFail . testProperty "Errors when the list is too short" $ prop_failsOnShortList
   ]
+  where
+    prop_findsNth :: Eq a => a -> [a] -> [a] -> Bool
+    prop_findsNth x xs ys = P.elementAt (xs ++ [x] ++ ys) (length xs) == x
+    prop_failsOnNegativeIx :: [Int] -> Int -> Bool
+    prop_failsOnNegativeIx xs i = i <= 0 ==> P.elementAt xs i `seq` True
+    prop_failsOnShortList :: [Int] -> Int -> Bool
+    prop_failsOnShortList xs i = i >= length xs ==> P.elementAt xs i `seq` True
 
 problem04Tests :: [TestTree]
 problem04Tests =
