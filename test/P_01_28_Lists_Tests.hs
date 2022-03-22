@@ -55,17 +55,19 @@ problem01Tests =
   ]
   where
     prop_findsLast :: Eq a => a -> [a] -> Bool
-    prop_findsLast x list = P.myLast (list ++ [x]) == x
+    prop_findsLast x xs = P.myLast (xs ++ [x]) == x
 
 problem02Tests :: [TestTree]
 problem02Tests =
-  [ testCase "Finds the last but one element of a list of numbers" $
-      P.myButLast [1, 2, 3, 4]
-        @?= 3,
-    testCase "Finds the last but one element of a list of chars" $
-      P.myButLast ['a' .. 'z']
-        @?= 'y'
+  [ testProperty "Finds the last but one element of a list of numbers" $ prop_findsLastButOne @Int,
+    testProperty "Finds the last but one element of a list of chars" $ prop_findsLastButOne @Char,
+    expectFail . testProperty "Errors when list length is < 2" $ prop_failsOnShortList @Int
   ]
+  where
+    prop_findsLastButOne :: Eq a => a -> a -> [a] -> Bool
+    prop_findsLastButOne x y xs = P.myButLast (xs ++ [x, y]) == x
+    prop_failsOnShortList :: [a] -> Property
+    prop_failsOnShortList xs = (length xs >= 2) ==> P.myButLast xs `seq` True
 
 problem03Tests :: [TestTree]
 problem03Tests =
@@ -77,9 +79,9 @@ problem03Tests =
   where
     prop_findsNth :: Eq a => a -> [a] -> [a] -> Bool
     prop_findsNth x xs ys = P.elementAt (xs ++ [x] ++ ys) (length xs) == x
-    prop_failsOnNegativeIx :: [Int] -> Int -> Bool
+    prop_failsOnNegativeIx :: [Int] -> Int -> Property
     prop_failsOnNegativeIx xs i = i <= 0 ==> P.elementAt xs i `seq` True
-    prop_failsOnShortList :: [Int] -> Int -> Bool
+    prop_failsOnShortList :: [Int] -> Int -> Property
     prop_failsOnShortList xs i = i >= length xs ==> P.elementAt xs i `seq` True
 
 problem04Tests :: [TestTree]
