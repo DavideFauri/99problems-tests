@@ -2,7 +2,7 @@
 sudo: false
 
 # Choose a lightweight base image; we provide our own build tools.
-language: c
+language: minimal
 
 # GHC depends on GMP. You can add other dependencies here as well.
 addons:
@@ -13,10 +13,8 @@ addons:
 # The different configurations we want to test. You could also do things like
 # change flags or use --stack-yaml to point to a different file.
 env:
-- ARGS=""
-#- ARGS="--resolver lts-2"
-- ARGS="--resolver lts"
-- ARGS="--resolver nightly"
+# - ARGS="--resolver ghc.8.10"
+- ARGS="--resolver ghc-9"
 
 before_install:
 # Download and unpack the stack executable
@@ -24,10 +22,14 @@ before_install:
 - export PATH=$HOME/.local/bin:$PATH
 - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
 
-# This line does all of the work: installs GHC if necessary, builds the
-# library, executables, and test suites, and runs the test suites.
+# This line installs GHC if necessary, builds the library, executables, and test suites
 # `--no-terminal works` around some quirks in Travis's terminal implementation.
-script: stack $ARGS --no-terminal --install-ghc test
+install: 
+- stack $ARGS --no-terminal --install-ghc test --only-dependencies
+
+# This line runs the test suites.
+script:
+- stack $ARGS --no-terminal exec infrastructureTest
 
 # Caching so the next build will be fast too.
 cache:

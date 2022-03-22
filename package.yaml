@@ -4,7 +4,7 @@ github:              DavideFauri/99problems-tests
 license:             MIT
 author:              Davide Fauri
 maintainer:          davide.fauri@gmail.com
-copyright:           2020 Davide Fauri
+copyright:           2020-2022 Davide Fauri
 
 extra-source-files:
 - README.md
@@ -32,13 +32,23 @@ ghc-options:
 
 library:
   source-dirs: problems
-  dependencies:
+  # dependencies:
+
+executables:
+  infrastructureTest:
+    ghc-options:        -main-is MetaTest
+    main:               MetaTest.hs
+    source-dirs:        test
+    dependencies:
+    - 99problems-tests
     - tasty
     - tasty-hunit
     - tasty-quickcheck
+    - tasty-expected-failure
 
-executables:
+tests:
   99ProblemTests:
+    ghc-options:         -main-is Test
     main:                Test.hs
     source-dirs:         test
     dependencies:
@@ -47,6 +57,8 @@ executables:
     - tasty-hunit
     - tasty-quickcheck
     - tasty-expected-failure
+    # - regex-compat
+
 
     # ghc-options:
     # - -threaded

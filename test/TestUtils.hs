@@ -1,4 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TypeApplications #-}
 
 module TestUtils (dummyTests, handleUnimplemented) where
 
@@ -9,6 +10,8 @@ import Test.Tasty.ExpectedFailure (expectFail, wrapTest)
 import Test.Tasty.HUnit
 import Test.Tasty.QuickCheck (testProperty)
 import Test.Tasty.Runners
+
+-- import Text.Regex
 
 --------------------------------------
 
@@ -44,19 +47,35 @@ handleUnimplemented = wrapTest (fmap $ unimplementedFunctionIsFail . unimplement
 
 --------------------------------------
 
+dropRerunSuggestions :: TestTree -> TestTree
+dropRerunSuggestions = wrapTest (fmap replaceResultText)
+  where
+    replaceResultText :: Result -> Result
+    replaceResultText r@Result {..} =
+      r --{resultDescription = subRegex (mkRegex "\nUse -p '.+' to rerun this test only.") resultDescription ""}
+
+--------------------------------------
+
 -- TESTING THE TEST INFRASTRUCTURE
 
 dummyTests :: TestTree
 dummyTests =
-  handleUnimplemented $
     testGroup
       "Placeholder Tests"
-      [ testProperty "Property tests are working" (dummyProp :: Int -> Bool), -- example Quickcheck property test
-        testCase "Unit tests are working" dummyCase, -- example unit test
-        testCase "Can import problem solutions" dummyImport, -- verify that can import solutions from Problems module
-        testCase "Undefined functions are regarded as failures" dummyFuncTest, -- handling the tricky case of an undefined function
-        expectFail $ testCase "This test should fail, but that's OK" dummyFunc
-        -- testCase "This test should be hidden" dummyFail --TODO using tasty-fail-fast to only prompt one error at a time
+    [ testGroup
+        "Base functionality"
+        [ testCase "Unit tests are working" dummyCase,
+          testProperty "Property tests are working" (dummyProp @Int),
+          expectFail $ testCase "Expected failures are working" dummyFail,
+          testCase "Can import problem solutions" dummyImport,
+          handleUnimplemented $ testCase "Unimplemented tests are skipped" dummyTest
+        ],
+      expectFail . handleUnimplemented $
+        testGroup
+          "Handling unimplemented solutions"
+          [ testCase "Missing implementations are regarded as failures" dummyFuncTest,
+            expectFail $ testCase "Missing implementations are failures even if the test is expected to fail" dummyFuncTest
+          ]
       ]
 
 dummyProp :: a -> Bool
@@ -69,10 +88,13 @@ dummyImport :: Assertion
 dummyImport = P.placeholder @?= "placeholder"
 
 dummyFunc :: a
-dummyFunc = error "NotImplemented"
+dummyFunc = error "SolutionNotImplemented"
 
 dummyFuncTest :: Assertion
 dummyFuncTest = dummyFunc @?= True
+
+dummyTest :: Assertion
+dummyTest = error "TestNotImplemented"
 
 dummyFail :: Assertion
 dummyFail = assertFailure ""
