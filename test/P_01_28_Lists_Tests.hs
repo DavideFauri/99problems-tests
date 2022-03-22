@@ -51,11 +51,7 @@ problem01Tests :: [TestTree]
 problem01Tests =
   [ testProperty "Finds the last element of a list of numbers" $ prop_findsLast @Int,
     testProperty "Finds the last element of a list of chars" $ prop_findsLast @Char,
-<<<<<<< Updated upstream
     expectFail . testCase "Errors when the list is empty" $ P.myLast []
-=======
-    expectFail . testCase "Throws error when the list is empty" $ P.myLast [] @?= 0
->>>>>>> Stashed changes
   ]
   where
     prop_findsLast :: Eq a => a -> [a] -> Bool
@@ -63,26 +59,15 @@ problem01Tests =
 
 problem02Tests :: [TestTree]
 problem02Tests =
-<<<<<<< Updated upstream
   [ testProperty "Finds the last but one element of a list of numbers" $ prop_findsLastButOne @Int,
     testProperty "Finds the last but one element of a list of chars" $ prop_findsLastButOne @Char,
     expectFail . testProperty "Errors when list length is < 2" $ prop_failsOnShortList @Int
-=======
-  [ testCase "Finds the last but one element of a list of numbers" $ prop_findsLastButOne @Int,
-    testCase "Finds the last but one element of a list of chars" $ prop_findsLastButOne @Char,
-    expectFail . testCase "Throws error when list length is < 2" $ prop_failsOnShortList @Int
->>>>>>> Stashed changes
   ]
   where
     prop_findsLastButOne :: Eq a => a -> a -> [a] -> Bool
     prop_findsLastButOne x y xs = P.myButLast (xs ++ [x, y]) == x
-<<<<<<< Updated upstream
     prop_failsOnShortList :: [a] -> Property
     prop_failsOnShortList xs = (length xs >= 2) ==> P.myButLast xs `seq` True
-=======
-    prop_failsOnShortList :: [a] -> Bool
-    prop_failsOnShortList xs = (length xs >= 2) ==> P.myButLast xs
->>>>>>> Stashed changes
 
 problem03Tests :: [TestTree]
 problem03Tests =
