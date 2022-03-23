@@ -1,34 +1,34 @@
-name:                99problems-tests
-version:             0.2.0.0
-github:              DavideFauri/99problems-tests
-license:             MIT
-author:              Davide Fauri
-maintainer:          davide.fauri@gmail.com
-copyright:           2020-2022 Davide Fauri
+name: 99problems-tests
+version: 0.2.0.0
+github: DavideFauri/99problems-tests
+license: MIT
+author: Davide Fauri
+maintainer: davide.fauri@gmail.com
+copyright: 2020-2022 Davide Fauri
 
 extra-source-files:
-- README.md
+  - README.md
 
 # Metadata used when publishing your package
-synopsis:            A test suite for the famous 99 Haskell Problems
-category:            Teaching
+synopsis: A test suite for the famous 99 Haskell Problems
+category: Teaching
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/DavideFauri/99problems#readme>
+description: Please see the README on Github at <https://github.com/DavideFauri/99problems#readme>
 
 dependencies:
-- base >= 4.11 && < 10
+  - base >= 4.11 && < 10
 
 ghc-options:
-- -Wall
-- -Wcompat
-- -Widentities
-- -Wincomplete-record-updates
-- -Wincomplete-uni-patterns
-- -Wpartial-fields
-- -Wredundant-constraints
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wpartial-fields
+  - -Wredundant-constraints
 
 library:
   source-dirs: problems
@@ -36,29 +36,28 @@ library:
 
 executables:
   infrastructureTest:
-    ghc-options:        -main-is MetaTest
-    main:               MetaTest.hs
-    source-dirs:        test
+    ghc-options: -main-is MetaTest
+    main: MetaTest.hs
+    source-dirs: test
     dependencies:
-    - 99problems-tests
-    - tasty
-    - tasty-hunit
-    - tasty-quickcheck
-    - tasty-expected-failure
+      - 99problems-tests
+      - tasty >= 1.4
+      - tasty-hunit >= 0.10
+      - tasty-quickcheck >= 0.10
+      - tasty-expected-failure >=0.12
 
 tests:
   99ProblemTests:
-    ghc-options:         -main-is Test
-    main:                Test.hs
-    source-dirs:         test
+    ghc-options: -main-is Test
+    main: Test.hs
+    source-dirs: test
     dependencies:
-    - 99problems-tests
-    - tasty
-    - tasty-hunit
-    - tasty-quickcheck
-    - tasty-expected-failure
+      - 99problems-tests
+      - tasty >= 1.4
+      - tasty-hunit >= 0.10
+      - tasty-quickcheck >= 0.10
+      - tasty-expected-failure >=0.12
     # - regex-compat
-
 
     # ghc-options:
     # - -threaded
