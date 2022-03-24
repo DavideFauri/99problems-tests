@@ -86,36 +86,40 @@ problem03Tests =
 
 problem04Tests :: [TestTree]
 problem04Tests =
-  [ testCase "Finds the number of elements of a list" $
-      P.myLength [123, 456, 789]
-        @?= 3,
-    testCase "Finds the number of characters of a string" $
-      P.myLength "Hello, world!"
-        @?= 13
+  [ testProperty "Finds the number of elements of a list" $ prop_length @Int,
+    testProperty "Finds the number of characters of a string" $ prop_length @Char
   ]
+  where
+    prop_length :: [a] -> Bool
+    prop_length xs = P.myLength xs == length xs
 
 problem05Tests :: [TestTree]
 problem05Tests =
-  [ testCase "Reverses a list of numbers" $
-      P.reverse [1, 2, 3, 4]
-        @?= [4, 3, 2, 1],
-    testCase "Reverses a string" $
-      P.reverse "A man, a plan, a canal, panama!"
-        @?= "!amanap ,lanac a ,nalp a ,nam A"
+  [ testCase "Reverses a list of numbers" $ P.reverse [1, 2, 3, 4] @?= [4, 3, 2, 1],
+    testCase "Reverses a string" $ P.reverse "A man, a plan, a canal, panama!" @?= "!amanap ,lanac a ,nalp a ,nam A",
+    testProperty "Reverse applies distributively" $ prop_distributive @Int,
+    testProperty "Composing reverse with reverse is identity" $ prop_composeToId @Int
   ]
+  where
+    prop_distributive :: Eq a => [a] -> [a] -> Bool
+    prop_distributive xs ys = P.reverse (xs ++ ys) == P.reverse ys ++ P.reverse xs
+    prop_composeToId :: Eq a => [a] -> Bool
+    prop_composeToId xs = (P.reverse . P.reverse $ xs) == xs
 
 problem06Tests :: [TestTree]
 problem06Tests =
-  [ testCase "Checks that a list fails" $
-      P.isPalindrome [1, 2, 3]
-        @?= False,
-    testCase "Checks that a string succeeds" $
-      P.isPalindrome "madamimadam"
-        @?= True,
-    testCase "Checks that a list succeeds" $
-      P.isPalindrome [1, 2, 4, 8, 16, 8, 4, 2, 1]
-        @?= True
+  [ testProperty "Checks that a list fails" $ prop_notPalindromes @Int,
+    testProperty "Checks that a list succeeds" $ prop_palindromes @Int,
+    testProperty "Checks that a string succeeds" $ prop_palindromes @Char
   ]
+  where
+    prop_palindromes :: a -> [a] -> Bool
+    prop_palindromes x xs = prop_evenPalindrome && prop_oddPalindrome
+      where
+        prop_evenPalindrome = P.isPalindrome $ xs ++ P.reverse xs
+        prop_oddPalindrome = P.isPalindrome $ xs ++ [x] ++ P.reverse xs
+    prop_notPalindromes :: Eq a => [a] -> Property
+    prop_notPalindromes xs = xs /= P.reverse xs ==> not $ P.isPalindrome xs
 
 problem07Tests :: [TestTree]
 problem07Tests =
